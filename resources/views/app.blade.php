@@ -6,7 +6,7 @@
 
         <title>@yield('title') -- DanielSink.dev</title>
 
-        <link rel="stylesheet" href="{{ mix('/css/app.css }}">
+        <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
         <script src="{{ mix('/js/manifest.js') }}" defer></script>
         <script src="{{ mix('/js/vendor.js') }}" defer></script>
