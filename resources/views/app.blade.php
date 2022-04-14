@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <title>@yield('title') -- DanielSink.dev</title>
 
@@ -13,7 +14,13 @@
         <script src="{{ mix('/js/app.js') }}" defer></script>
     </head>
     <body class="antialiased">
-        
+        <div>
+            @include('shared.header')
+
+            <main class="mt-20">
+                @yield('content')
+            </main>
+        </div>
 
         @livewireScripts
     </body>

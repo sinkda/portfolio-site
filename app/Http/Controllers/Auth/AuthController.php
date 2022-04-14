@@ -16,9 +16,7 @@ class AuthController extends Controller
     // submit login
     public function login(LoginRequest $request)
     {
-        $credentials = $request->validated();
-
-        if(auth()->attempt($credentials))
+        if(auth()->attempt($request->only(['email', 'password']), $request->boolean('rememberme')))
         {
             $request->session()->regenerate();
 
@@ -27,7 +25,7 @@ class AuthController extends Controller
     
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.'
-        ])->onlyInput('email');
+        ])->onlyInput('email', 'rememberme');
     }
 
     // logout
@@ -38,6 +36,6 @@ class AuthController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('login.index');
     }
 }
