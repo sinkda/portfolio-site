@@ -13,11 +13,13 @@
         <script src="{{ mix('/js/vendor.js') }}" defer></script>
         <script src="{{ mix('/js/app.js') }}" defer></script>
     </head>
-    <body class="antialiased">
-        <div>
-            @include('shared.header')
+    <body class="antialiased bg-gray-100">
+        <div class="h-screen flex flex-col relative">
+            <header>
+                @include('shared.header')
+            </header>
 
-            <main class="mt-20">
+            <main class="flex-1 overflow-y-auto mt-24">
                 @yield('content')
             </main>
         </div>
