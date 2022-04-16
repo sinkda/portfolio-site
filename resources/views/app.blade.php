@@ -19,7 +19,7 @@
                 @include('shared.header')
             </header>
 
-            <main class="flex-1 overflow-y-auto mt-24">
+            <main class="flex-1 overflow-y-auto mt-24 container mx-auto px-3">
                 @yield('content')
             </main>
 

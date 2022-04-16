@@ -15,7 +15,7 @@
     <div class="hidden ml-7 md:ml-0 mt-6 md:mt-0 md:flex w-full md:w-fit items-center space-y-2 md:space-y-0 md:space-x-6" x-bind:class="{'hidden': !mobileNavOpen}">
         <x-nav-link :href="route('home')" controller="HomeController">Home</x-nav-link>
         <x-nav-link :href="route('home')" controller="PortfolioController">Portfolio</x-nav-link>
-        <x-nav-link :href="route('home')" controller="PostController">Blog</x-nav-link>
+      {{--  <x-nav-link :href="route('home')" controller="PostController">Blog</x-nav-link> --}}
         <x-nav-link :href="route('home')" controller="ContactController">Contact</x-nav-link> 
     </div>
 </nav>
