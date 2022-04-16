@@ -22,6 +22,10 @@
             <main class="flex-1 overflow-y-auto mt-24">
                 @yield('content')
             </main>
+
+            <footer class="w-full bg-slate-700 text-white flex flex-col items-center py-3">
+                @include('shared.footer')
+            </footer>
         </div>
 
         @livewireScripts
