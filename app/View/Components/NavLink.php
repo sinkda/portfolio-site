@@ -22,17 +22,9 @@ class NavLink extends Component
     {
         $routeArray = app('request')->route()->getAction();
         $controllerAction = class_basename($routeArray['controller']);
-        list($controller, $action) = explode('@', $controllerAction);
+        [$controller,] = explode('@', $controllerAction);
 
-        switch($controller)
-        {
-            case 'HomeController':
-                $this->active = ($controller == $this->controller) ? true : false;
-                break;
-
-            default:
-                $this->active = false;
-        }
+        $this->active = ($controller == $this->controller) ? true : false;
     }
 
     public function render()

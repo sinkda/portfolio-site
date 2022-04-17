@@ -16,6 +16,6 @@
         <x-nav-link :href="route('home')" controller="HomeController">Home</x-nav-link>
         <x-nav-link :href="route('home')" controller="PortfolioController">Portfolio</x-nav-link>
       {{--  <x-nav-link :href="route('home')" controller="PostController">Blog</x-nav-link> --}}
-        <x-nav-link :href="route('home')" controller="ContactController">Contact</x-nav-link> 
+        <x-nav-link :href="route('contact.index')" controller="ContactController">Contact</x-nav-link> 
     </div>
 </nav>
