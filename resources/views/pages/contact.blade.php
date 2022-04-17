@@ -13,6 +13,13 @@
                     <h2 class="text-xl font-bold">Contact Me</h2>
                 </div>
 
+                @if(session('success'))
+                <div class="flex flex-col rounded-xl w-full bg-green-200/75 p-6">
+                    <h4 class="font-bold text-md text-green-800">Message Sent!</h4>
+                    <p class="text-green-600">Your message was successfully sent! Thanks for getting in touch with me. You should hear from me soon.</p>
+                </div>
+                @endif
+
                 <div class="flex flex-col md:flex-row w-full md:space-x-6 space-y-6 md:space-y-0">
                     <div class="flex-grow flex flex-col">
                         <label for="name" class="text-sm tracking-wide text-gray-600">Name:</label>
