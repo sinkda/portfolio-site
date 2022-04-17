@@ -26,7 +26,7 @@
                         <div class="flex flex-col mb-5">
                             <div class="mb-4">
                                 <label for="email" class="text-sm tracking-wide text-gray-600">E-Mail Address:</label>
-                                <input type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}"
+                                <input type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}" required
                                     class="text-sm placeholder-gray-500 mt-2 px-4 py-2 rounded-xl border border-gray-400 w-full focus:outline-none focus:border-blue-400">
                                 @error('email')
                                     <span class="text-sm text-red-300">{{ $message }}</span>
@@ -35,7 +35,7 @@
 
                             <div class="mb-6">
                                 <label for="password" class="text-sm tracking-wide text-gray-600">Password:</label>
-                                <input type="password" name="password" placeholder="Enter your password"
+                                <input type="password" name="password" placeholder="Enter your password" required
                                     class="text-sm placeholder-gray-500 mt-2 px-4 py-2 rounded-xl border border-gray-400 w-full focus:outline-none focus:border-blue-400">
                                 @error('password')
                                     <span class="text-sm text-red-300">{{ $message }}</span>
