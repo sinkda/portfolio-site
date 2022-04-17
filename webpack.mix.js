@@ -16,4 +16,5 @@ mix.js('resources/js/app.js', 'public/js')
         require('tailwindcss')
     ])
     .version()
+    .browserSync('localhost:8000')
     .extract();
