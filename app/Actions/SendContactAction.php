@@ -11,5 +11,7 @@ class SendContactAction
         Contact::create($contact);
 
         // TODO:  Send Email Notification
+
+        return true;
     }
 }
