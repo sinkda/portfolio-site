@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center space-y-3 text-sm pt-1 pb-3">
-    <p>&copy; {{ now()->year }} Portfolio Site</p>
+    <p>&copy; {{ now()->year }} {{ config('app.name') }}</p>
     <div class="flex space-x-3">
         {{-- Twitter --}}
         <a href="https://twitter.com/sinkda87" title="Twitter Account" target="_blank">

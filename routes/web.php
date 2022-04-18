@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\HomeController;
@@ -34,5 +35,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 */
 
 #region Admin Routes
+Route::middleware(['auth'])->prefix('dashboard')->name('admin.')->group(function() {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
 
+});
 #endregion
