@@ -27,4 +27,14 @@ class Message extends Model
         $this->read_status = false;
         $this->save();
     }
+
+    public function isRead()
+    {
+        return (bool) $this->read_status;
+    }
+
+    public function isUnread()
+    {
+        return (bool) !$this->read_status;
+    }
 }

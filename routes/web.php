@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MessageController;
@@ -38,5 +39,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth'])->prefix('dashboard')->name('admin.')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
+    Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.list');
 });
 #endregion
