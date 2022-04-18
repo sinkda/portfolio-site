@@ -3,11 +3,11 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Actions\SendContactAction;
+use App\Actions\SendContactMessageAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PDOException;
 
-class SendContactActionTest extends TestCase
+class SendContactMessageActionTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,7 +20,7 @@ class SendContactActionTest extends TestCase
            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
-        $contact = new SendContactAction();
+        $contact = new SendContactMessageAction();
 
         $return = $contact->handle($data);
 
@@ -35,7 +35,7 @@ class SendContactActionTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
  
-        $contact = new SendContactAction();
+        $contact = new SendContactMessageAction();
  
         $this->expectException(PDOException::class);
 

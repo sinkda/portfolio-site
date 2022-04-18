@@ -6,7 +6,7 @@
 {{-- About Section --}}
 <section class="flex flex-col md:flex-row w-full shadow-md rounded-xl bg-white p-8">
     <div class="w-full">
-        <form action="{{ route('contact.store') }}" method="post">
+        <form action="{{ route('message.store') }}" method="post">
             @csrf
             <div class="flex flex-col w-full space-y-6">
                 <div>

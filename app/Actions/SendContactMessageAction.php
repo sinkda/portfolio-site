@@ -2,13 +2,13 @@
 
 namespace App\Actions;
 
-use App\Models\Contact;
+use App\Models\Message;
 
-class SendContactAction
+class SendContactMessageAction
 {
     public function handle(array $contact)
     {
-        Contact::create($contact);
+        Message::create($contact);
 
         // TODO:  Send Email Notification
 

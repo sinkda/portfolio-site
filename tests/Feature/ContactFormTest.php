@@ -5,13 +5,13 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ContactTest extends TestCase
+class ContactFormTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_user_can_access_contact_page()
     {
-        $response = $this->get(route('contact.index'));
+        $response = $this->get(route('message.index'));
 
         $response->assertOk();
         $response->assertSee('Contact Me');
@@ -26,22 +26,16 @@ class ContactTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
-        $this->call('get', route('contact.index'));
+        $this->call('get', route('message.index'));
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
-        $response->assertRedirect(route('contact.index'));
+        $response->assertRedirect(route('message.index'));
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success', true);
 
-        $this->assertDatabaseHas('contacts', ['name' => 'Person Name']);
+        $this->assertDatabaseHas('messages', ['name' => 'Person Name']);
     }
-
-    /**
-     *
-     *       'subject' => ['required', 'min:10', 'string'],
-     *       'message' => ['required', 'min:10']
-     */
 
      public function test_contact_name_field_missing()
      {
@@ -51,13 +45,13 @@ class ContactTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['name']);
         $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('contacts', ['email' => 'person@example.com']);        
+        $this->assertDatabaseMissing('messages', ['email' => 'person@example.com']);        
      }
 
      public function test_contact_email_field_missing()
@@ -68,13 +62,13 @@ class ContactTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['email']);
         $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('contacts', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
      }
 
      public function test_contact_email_invalid_type()
@@ -86,13 +80,13 @@ class ContactTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['email']);
         $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('contacts', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
      }
 
      public function test_contact_subject_field_missing()
@@ -103,13 +97,13 @@ class ContactTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['subject']);
         $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('contacts', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
      }
 
      public function test_contact_subject_field_too_short()
@@ -121,13 +115,13 @@ class ContactTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['subject']);
         $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('contacts', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
      }
 
      public function test_contact_message_field_missing()
@@ -138,13 +132,13 @@ class ContactTest extends TestCase
             'subject' => 'This person wants to talk to you',
         ];
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['message']);
         $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('contacts', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
      }
 
      public function test_contact_message_field_too_short()
@@ -156,12 +150,12 @@ class ContactTest extends TestCase
             'message' => 'hi'
         ];
 
-        $response = $this->post(route('contact.store'), $data);
+        $response = $this->post(route('message.store'), $data);
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['message']);
         $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('contacts', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
      }
 }
