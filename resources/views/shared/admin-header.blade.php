@@ -9,7 +9,28 @@
         </div>
     </div>
 
-    <div class="mr-6">
-        Account
+    <div class="mr-6 relative" x-data="{accountShow: false}">
+        <button type="button" x-on:click="accountShow = !accountShow"
+                class="text-white bg-purple-600 hover:bg-purple-800 focus:outline-none font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center"> 
+            <span>Account</span>
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+
+        <div x-show="accountShow" x-on:click.away="accountShow = false" class="absolute right-0 z-10 w-44 shadow-md" x-cloak>
+            <ul class="py-1 text-sm text-gray-700">
+                <li>
+                    <a href="#" class="block py-2 px-4 bg-gray-600 hover:bg-indigo-800 text-white">Profile</a>
+                </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="w-full py-2 px-4 bg-gray-600 hover:bg-indigo-800 text-white text-left">Sign out</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </header>
