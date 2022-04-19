@@ -14,6 +14,8 @@ class MessageTable extends Component
 
     protected $listeners = ['markUnread', 'markRead'];
 
+    protected $queryString = ['search' => ['except' => '']];
+
     public function updatingSearch()
     {
         $this->resetPage();
@@ -32,7 +34,11 @@ class MessageTable extends Component
     public function render()
     {
         return view('livewire.message-table', [
-            'messages' => Message::where('subject', 'like', "%{$this->search}%")->orWhere('message', 'like', "%{$this->search}%")->paginate(10)
+            'messages' => Message::query()
+                                    ->when($this->search, function($query) {
+                                        $query->where('subject', 'like', "%{$this->search}%")
+                                            ->orWhere('message', 'like', "%{$this->search}%");
+                                    })->paginate(10)
         ]);
     }
 }
