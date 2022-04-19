@@ -11,11 +11,6 @@ class Message extends Model
 
     protected $fillable = ['name', 'email', 'subject', 'message'];
 
-    public function Status()
-    {
-        return $this->read_status;
-    }
-
     public function markAsRead()
     {
         $this->read_status = true;
