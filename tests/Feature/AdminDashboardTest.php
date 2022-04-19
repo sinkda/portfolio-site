@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class AdminDashboardTest extends TestCase
@@ -30,5 +32,14 @@ class AdminDashboardTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk();
         $response->assertSee(config('app.name'));
+    }
+
+    public function test_dashboard_menu_has_unread_count_livewire_component()
+    {
+        $user = User::factory()->create();
+
+        /** @var mixed $user */
+        $response = $this->actingAs($user)->get(route('admin.index'));
+        $response->assertSeeLivewire('unread-message-counter');
     }
 }
