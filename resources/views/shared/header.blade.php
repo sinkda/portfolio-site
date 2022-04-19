@@ -17,5 +17,9 @@
         <x-nav-link :href="route('home')" controller="PortfolioController">Portfolio</x-nav-link>
       {{--  <x-nav-link :href="route('home')" controller="PostController">Blog</x-nav-link> --}}
         <x-nav-link :href="route('message.index')" controller="MessageController">Contact Me</x-nav-link> 
+
+        @auth
+            <x-nav-link :href="route('admin.index')" controller="DashboardController">Dashboard</x-nav-link> 
+        @endauth
     </div>
 </nav>
