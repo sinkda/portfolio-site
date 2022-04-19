@@ -40,5 +40,7 @@ Route::middleware(['auth'])->prefix('dashboard')->name('admin.')->group(function
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
     Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.list');
+    Route::get('/messages/{message}', [AdminMessageController::class, 'view'])->name('messages.view')
+        ->missing(fn() => redirect()->route('admin.messages.list')->with('missing', true));
 });
 #endregion

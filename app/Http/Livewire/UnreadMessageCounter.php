@@ -16,14 +16,16 @@ class UnreadMessageCounter extends Component
         $this->unread = Message::where('read_status', 0)->count();
     }
 
-    public function markRead()
+    public function markRead(Message $message)
     {
         $this->unread--;
+        $message->markAsRead();
     }
 
-    public function markUnread()
+    public function markUnread(Message $message)
     {
         $this->unread++;
+        $message->markAsUnread();
     }
 
     public function render()

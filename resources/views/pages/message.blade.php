@@ -14,11 +14,18 @@
                 </div>
 
                 @if(session('success'))
-                <div class="flex flex-col rounded-xl w-full bg-green-200/75 p-6">
+                <div x-data="{showSuccessMessage: true}" x-show="showSuccessMessage" x-init="setInterval(() => showSuccessMessage = false, 8000)" x-transition
+                     class="relative flex flex-col rounded-xl w-full bg-green-200/75 p-6">
+                    <button x-on:click="showSuccessMessage = false" class="absolute right-3 top-3 text-green-800 hover:text-green-600">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
                     <h4 class="font-bold text-md text-green-800">Message Sent!</h4>
                     <p class="text-green-600">Your message was successfully sent! Thanks for getting in touch with me. You should hear from me soon.</p>
                 </div>
                 @endif
+
 
                 <div class="flex flex-col md:flex-row w-full md:space-x-6 space-y-6 md:space-y-0">
                     <div class="flex-grow flex flex-col">

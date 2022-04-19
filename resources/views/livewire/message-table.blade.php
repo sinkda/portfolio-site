@@ -1,6 +1,4 @@
 <div>
-    <h2 class="text-xl font-bold mb-8">Messages</h2>
-
     <div class="flex justify-end mb-6">
         <input type="search" wire:model.debounce="search" placeholder="Search Results" class="w-full md:w-64 text-sm placeholder-gray-500 mt-2 px-4 py-2 rounded-xl border border-gray-400 focus:outline-none focus:border-blue-400">
     </div>
@@ -29,8 +27,8 @@
                             
                         </td>
                         <td class="whitespace-nowrap p-2 flex space-x-4">
-                            <button class="py-2 flex items-center justify-center focus:outline-none text-white text-sm
-                                            bg-blue-500 hover:bg-blue-600 rounded-xl w-16 transition duration-150 ease-in">View</button>
+                            <a href="{{ route('admin.messages.view', $message->id) }}" class="py-2 flex items-center justify-center focus:outline-none text-white text-sm
+                                            bg-blue-500 hover:bg-blue-600 rounded-xl w-16 transition duration-150 ease-in">View</a>
 
                             @if( $message->isRead() )
                                 <button wire:click="$emit('markUnread', {{ $message->id }})" class="py-2 flex items-center justify-center focus:outline-none text-gray-700 hover:text-white text-sm
