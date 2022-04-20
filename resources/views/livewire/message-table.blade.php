@@ -27,7 +27,7 @@
                             
                         </td>
                         <td class="whitespace-nowrap p-2 flex space-x-4">
-                            <a href="{{ route('admin.messages.view', $message->id) }}" class="py-2 flex items-center justify-center focus:outline-none text-white text-sm
+                            <a href="{{ route('admin.messages.show', $message->id) }}" class="py-2 flex items-center justify-center focus:outline-none text-white text-sm
                                             bg-blue-500 hover:bg-blue-600 rounded-xl w-16 transition duration-150 ease-in">View</a>
 
                             @if( $message->isRead() )

@@ -12,7 +12,7 @@ class AdminMessageController extends Controller
         return view('admin.list-messages');      
     }
 
-    public function view(Message $message)
+    public function show(Message $message)
     {
         return view('admin.view-message', [
             'message' => $message
