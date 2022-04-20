@@ -20,13 +20,13 @@ class UnreadCounterLivewireTest extends TestCase
 
     public function test_unread_count_component_live_updates()
     {
-        Message::factory()->count(2)->create();
+        $messages = Message::factory()->count(2)->create();
   
         Livewire::test('unread-message-counter')
             ->assertSet('unread', 2)
-            ->emit('markRead')
+            ->emit('markRead', $messages->first()->id)
             ->assertSet('unread', 1)
-            ->emit('markUnread')
+            ->emit('markUnread', $messages->first()->id)
             ->assertSet('unread', 2);
     }
 }
