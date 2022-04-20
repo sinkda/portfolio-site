@@ -38,7 +38,9 @@ class MessageTable extends Component
                                     ->when($this->search, function($query) {
                                         $query->where('subject', 'like', "%{$this->search}%")
                                             ->orWhere('message', 'like', "%{$this->search}%");
-                                    })->paginate(10)
+                                    })
+                                    ->latest()
+                                    ->paginate(10)
         ]);
     }
 }
