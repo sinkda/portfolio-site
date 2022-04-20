@@ -30,6 +30,6 @@ class UnreadMessageCounter extends Component
 
     public function render()
     {
-        return view('livewire.unread-message-counter');
+            return view('livewire.unread-message-counter');
     }
 }
