@@ -20,7 +20,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => 'admin@admin.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => 'password', // automatically hashed by the model
             'remember_token' => Str::random(10),
         ];
     }
