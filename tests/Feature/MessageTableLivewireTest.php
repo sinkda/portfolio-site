@@ -88,4 +88,13 @@ class MessageTableLivewireTest extends TestCase
             ->assertDontSee($messages->shift()->subject);
     }
 
+    public function test_message_table_shows_individual_view_links()
+    {
+        $message = Message::factory()->create();
+
+        Livewire::test('message-table')
+            ->assertSet('search', '')
+            ->assertSeeHtml('<a href="'. route('admin.messages.show', $message->id) .'"');
+    }
+
 }
