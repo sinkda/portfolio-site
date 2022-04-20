@@ -33,4 +33,17 @@ class AdminMessagesTest extends TestCase
         $response->assertRedirect(route('admin.messages.index'));
         $response->assertSessionHas('missing', true);
     }
+
+    public function test_user_can_see_individual_message()
+    {
+        $user = User::factory()->create();
+        $message = Message::factory()->create();
+
+        /** @var mixed $user */
+        $response = $this->actingAs($user)->get(route('admin.messages.show', $message->id));   
+        
+        $response->assertOk();
+        $response->assertSee("Message From: {$message->name}");
+    }
+
 }

@@ -27,9 +27,4 @@ class Message extends Model
     {
         return (bool) $this->read_status;
     }
-
-    public function isUnread()
-    {
-        return (bool) !$this->read_status;
-    }
 }
