@@ -17,8 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
+            $table->text('contribution');
             $table->string('image');
-            $table->string('link');
+            $table->string('live_link')->nullable();
+            $table->string('code_link')->nullable();
+            $table->string('slug');
+            $table->boolean('show')->default(false);
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminMessageController;
+use App\Http\Controllers\Admin\AdminProjectController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MessageController;
@@ -13,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+#region Web Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact', [MessageController::class, 'index'])->name('message.index');
 Route::post('/contact', [MessageController::class, 'store'])->name('message.store');
+#endregion
 
 /*
 |--------------------------------------------------------------------------
@@ -39,8 +42,32 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth'])->prefix('dashboard')->name('admin.')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
-    Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.list');
-    Route::get('/messages/{message}', [AdminMessageController::class, 'view'])->name('messages.view')
-        ->missing(fn() => redirect()->route('admin.messages.list')->with('missing', true));
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Message Routes
+    |--------------------------------------------------------------------------
+    */
+
+    #region Admin Message Routes
+    Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show')
+        ->missing(fn() => redirect()->route('admin.messages.index')->with('missing', true));
+    #endregion
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Project Routes
+    |--------------------------------------------------------------------------
+    */
+
+    #region Admin Project Routes
+    Route::get('/projects', [AdminProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/create', [AdminProjectController::class, 'create'])->name('projects.create');
+    Route::post('/projects/create', [AdminProjectController::class, 'store'])->name('projects.store');
+    Route::get('/projects/update/{project:slug}', [AdminProjectController::class, 'edit'])->name('projects.edit')
+            ->missing(fn() => redirect()->route('admin.projects.index')->with('missing', true));;
+    Route::put('/projects/update', [AdminProjectController::class, 'update'])->name('projects.update');
+    Route::delete('/projects/delete/{project:slug}', [AdminProjectController::class, 'delete'])->name('projects.delete');
+    #endregion
 });
 #endregion

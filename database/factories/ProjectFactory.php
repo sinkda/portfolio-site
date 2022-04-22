@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,11 +17,20 @@ class ProjectFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->words(rand(2,4), true);
+        $slug = Str::slug($name);
+        $filename = $slug .'.png';
+
         return [
-            'name' => $this->faker->words(rand(2, 4), true),
+            'name' => $name,
             'description' => $this->faker->sentences(rand(2,5), true),
-            'image' => $this->faker->imageUrl(640, 480, 'PHP', true),
-            'links' => $this->faker->url()
+            'contribution' => $this->faker->sentences(rand(2,5), true),
+            'image' => $filename,
+            'live_link' => $this->faker->url(),
+            'code_link' => $this->faker->url(),
+            'slug' => $slug,
+            'show' => false,
+            'created_at' => $this->faker->dateTimeBetween('-1 week', now())
         ];
     }
 }
