@@ -42,6 +42,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware(['auth'])->prefix('dashboard')->name('admin.')->group(function() {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
 
+    Route::get('/profile', [DashboardController::class, 'show'])->name('profile.show');
+    Route::put('/profile', [DashboardController::class, 'update'])->name('profile.update');
+
     /*
     |--------------------------------------------------------------------------
     | Admin Message Routes

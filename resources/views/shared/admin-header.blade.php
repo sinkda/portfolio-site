@@ -21,7 +21,7 @@
         <div x-show="accountShow" x-on:click.away="accountShow = false" class="absolute right-0 z-10 w-44 shadow-md" x-cloak>
             <ul class="py-1 text-sm text-gray-700">
                 <li>
-                    <a href="#" class="block py-2 px-4 bg-gray-600 hover:bg-indigo-800 text-white">Profile</a>
+                    <a href="{{ route('admin.profile.show') }}" class="block py-2 px-4 bg-gray-600 hover:bg-indigo-800 text-white">Profile</a>
                 </li>
                 <li>
                     <form action="{{ route('logout') }}" method="post">
