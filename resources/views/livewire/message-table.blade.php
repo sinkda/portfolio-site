@@ -18,7 +18,7 @@
                         <td class="whitespace-nowrap p-2 text-sm text-gray-700">{{ $message->name }}</td>
                         <td class="whitespace-nowrap p-2 text-sm text-gray-700">{{ $message->email }}</td>
                         <td class="whitespace-nowrap p-2 text-sm text-gray-700">{{ $message->subject }}</td>
-                        <td class="whitespace-nowrap p-2 text-sm text-gray-700">
+                        <td class="whitespace-nowrap p-2">
                             @if( $message->isRead() )
                                 <span class="p-1.5 text-xs font-medium uppercase tracking-wider text-purple-600 bg-purple-200 rounded-lg bg-opacity-50">Read</span>
                             @else

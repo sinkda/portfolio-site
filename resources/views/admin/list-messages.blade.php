@@ -16,7 +16,7 @@
                     </svg>
                 </button>
                 <h4 class="font-bold text-md text-red-800">Resource Error</h4>
-                <p class="text-red-600">The message you tried to access does not exist. Try seleing a message from the table below.</p>
+                <p class="text-red-600">The message you tried to access does not exist. Try selecting a message from the table below.</p>
             </div>
         @endif
 

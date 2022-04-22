@@ -30,7 +30,7 @@
                 <div class="flex flex-col md:flex-row w-full md:space-x-6 space-y-6 md:space-y-0">
                     <div class="flex-grow flex flex-col">
                         <label for="name" class="text-sm tracking-wide text-gray-600">Name:</label>
-                        <input type="name" name="name" placeholder="Enter your Name" value="{{ old('name') }}" required
+                        <input type="text" name="name" placeholder="Enter your Name" value="{{ old('name') }}" required
                             class="text-sm placeholder-gray-500 mt-2 px-4 py-2 rounded-xl border border-gray-400 focus:outline-none focus:border-blue-400">
                         @error('name')
                             <span class="text-sm text-red-300">{{ $message }}</span>
@@ -48,7 +48,7 @@
                 <div>
                     <div class="flex-grow flex flex-col">
                         <label for="subject" class="text-sm tracking-wide text-gray-600">Message Subject:</label>
-                        <input type="subject" name="subject" placeholder="Enter a Subject" value="{{ old('subject') }}" required
+                        <input type="text" name="subject" placeholder="Enter a Subject" value="{{ old('subject') }}" required
                             class="text-sm placeholder-gray-500 mt-2 px-4 py-2 rounded-xl border border-gray-400 focus:outline-none focus:border-blue-400">
                         @error('subject')
                             <span class="text-sm text-red-300">{{ $message }}</span>
