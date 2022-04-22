@@ -10,6 +10,36 @@ class AuthTest extends TestCase
 {
     use RefreshDatabase;
 
+    private array $userInfo;
+    private User $loggedUser;
+
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        $this->userInfo = [
+            'email' => 'test@email.com',
+            'password' => 'testtest'
+        ];
+
+        $this->loggedUser = User::factory()->create($this->userInfo);
+    }
+
+    private function auth()
+    {
+        $this->actingAs($this->loggedUser);
+    }
+
+    private function performLogin($noErrors = false)
+    {
+        $response = $this->post(route('login.action'), $this->userInfo);
+
+        if(!$noErrors)
+            $response->assertStatus(302);
+
+        return $response;
+    }
+
     public function test_guest_can_access_login_page()
     {
         $response = $this->get(route('login.index'));
@@ -21,61 +51,42 @@ class AuthTest extends TestCase
 
     public function test_logged_in_user_cannot_access_login_page()
     {
-        $user = User::factory()->create();
+        $this->auth();
 
-        /** @var mixed $user */
-        $response = $this->actingAs($user)->get(route('login.index'));
+        $response = $this->get(route('login.index'));
+        $response->assertRedirect(route('home'));
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('home'));
     }
 
     public function test_logged_in_user_can_logout()
     {
-        $user = User::factory()->create();
+        $this->auth();
 
-        /** @var mixed $user */
-        $response = $this->actingAs($user)->post(route('logout'));
+        $response = $this->post(route('logout'));
+        $response->assertRedirect(route('login.index'));
 
         $this->assertGuest();
-
-        $response->assertRedirect(route('login.index'));
     }
 
     public function test_guest_can_login_no_errors()
     {
-        $userInfo = [
-            'email' => 'test@email.com',
-            'password' => 'testtest'
-        ];
-
-        $user = User::factory()->create($userInfo);
-
         $this->assertGuest();
 
-        $response = $this->post(route('login.action'), $userInfo);
-
+        $response = $this->performLogin(true);
+        $response->assertRedirect(route('admin.index'));
         $response->assertSessionHasNoErrors();
 
-        $this->assertAuthenticatedAs($user);
+        $this->assertAuthenticatedAs($this->loggedUser);
     }
 
     public function test_invalid_email_for_login_fails()
     {
-        $userInfo = [
-            'email' => 'test@email.com',
-            'password' => 'testtest'
-        ];
-
-        User::factory()->create($userInfo);
-
         $this->assertGuest();
 
-        $userInfo['email'] = 'test@example.com';
+        $this->userInfo['email'] = 'test@example.com';
 
-        $response = $this->post(route('login.action'), $userInfo);
-
-        $response->assertStatus(302);
+        $response = $this->performLogin();
         $response->assertSessionHasErrors(['email']);
         
         $this->assertGuest();
@@ -83,20 +94,11 @@ class AuthTest extends TestCase
 
     public function test_invalid_email_format_fails()
     {
-        $userInfo = [
-            'email' => 'test@email.com',
-            'password' => 'testtest'
-        ];
-
-        User::factory()->create($userInfo);
-
         $this->assertGuest();
 
-        $userInfo['email'] = 'test';
+        $this->userInfo['email'] = 'test';
 
-        $response = $this->post(route('login.action'), $userInfo);
-
-        $response->assertStatus(302);
+        $response = $this->performLogin();
         $response->assertSessionHasErrors(['email']);
         
         $this->assertGuest();
@@ -104,20 +106,11 @@ class AuthTest extends TestCase
 
     public function test_missing_email_fails()
     {
-        $userInfo = [
-            'email' => 'test@email.com',
-            'password' => 'testtest'
-        ];
-
-        User::factory()->create($userInfo);
-
         $this->assertGuest();
 
-        unset($userInfo['email']);
+        unset($this->userInfo['email']);
 
-        $response = $this->post(route('login.action'), $userInfo);
-
-        $response->assertStatus(302);
+        $response = $this->performLogin();
         $response->assertSessionHasErrors(['email']);
         
         $this->assertGuest();
@@ -125,20 +118,11 @@ class AuthTest extends TestCase
 
     public function test_missing_password_fails()
     {
-        $userInfo = [
-            'email' => 'test@email.com',
-            'password' => 'testtest'
-        ];
-
-        User::factory()->create($userInfo);
-
         $this->assertGuest();
 
-        unset($userInfo['password']);
+        unset($this->userInfo['password']);
 
-        $response = $this->post(route('login.action'), $userInfo);
-
-        $response->assertStatus(302);
+        $response = $this->performLogin();
         $response->assertSessionHasErrors(['password']);
         
         $this->assertGuest();       
@@ -146,20 +130,11 @@ class AuthTest extends TestCase
 
     public function test_wrong_password_on_login()
     {
-        $userInfo = [
-            'email' => 'test@email.com',
-            'password' => 'testtest'
-        ];
-
-        User::factory()->create($userInfo);
-
         $this->assertGuest();
 
-        $userInfo['password'] = 'test';
+        $this->userInfo['password'] = 'test';
 
-        $response = $this->post(route('login.action'), $userInfo);
-
-        $response->assertStatus(302);
+        $response = $this->performLogin();
         $response->assertSessionHasErrors(['email']);
         
         $this->assertGuest();            

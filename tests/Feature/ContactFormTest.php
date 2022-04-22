@@ -9,6 +9,35 @@ class ContactFormTest extends TestCase
 {
     use RefreshDatabase;
 
+    private array $data;
+
+    public function setUp() : void 
+    {
+        parent::setUp();
+
+        $this->data = [
+            'name' => 'Person Name',
+            'email' => 'person@example.com',
+            'subject' => 'This Person wants to talk to you',
+            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
+        ];
+
+        $this->call('get', route('message.index'));
+    }
+
+    private function submitContactMessage($noErrors = false)
+    {
+        $response = $this->post(route('message.store'), $this->data);
+
+        if(!$noErrors)
+        {
+            $response->assertStatus(302);   
+            $response->assertSessionMissing('success');
+        }
+
+        return $response;
+    }
+
     public function test_user_can_access_contact_page()
     {
         $response = $this->get(route('message.index'));
@@ -19,143 +48,82 @@ class ContactFormTest extends TestCase
 
     public function test_user_can_submit_contact_form_no_errors()
     {
-        $data = [
-            'name' => 'Person Name',
-            'email' => 'person@example.com',
-            'subject' => 'This Person wants to talk to you',
-            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
-        ];
-
-        $this->call('get', route('message.index'));
-
-        $response = $this->post(route('message.store'), $data);
+        $response = $this->submitContactMessage(true);
 
         $response->assertRedirect(route('message.index'));
         $response->assertSessionHasNoErrors();
         $response->assertSessionHas('success', true);
 
-        $this->assertDatabaseHas('messages', ['name' => 'Person Name']);
+        $this->assertDatabaseHas('messages', ['name' => $this->data['name']]);
     }
 
      public function test_contact_name_field_missing()
      {
-        $data = [
-            'email' => 'person@example.com',
-            'subject' => 'This Person wants to talk to you',
-            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
-        ];
+        unset($this->data['name']);
 
-        $response = $this->post(route('message.store'), $data);
-
-        $response->assertStatus(302);
+        $response = $this->submitContactMessage();
         $response->assertSessionHasErrors(['name']);
-        $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('messages', ['email' => 'person@example.com']);        
+        $this->assertDatabaseMissing('messages', ['email' => $this->data['email']]);        
      }
 
      public function test_contact_email_field_missing()
      {
-        $data = [
-            'name' => 'Person Name',
-            'subject' => 'This Person wants to talk to you',
-            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
-        ];
+        unset($this->data['email']);
 
-        $response = $this->post(route('message.store'), $data);
-
-        $response->assertStatus(302);
+        $response = $this->submitContactMessage();
         $response->assertSessionHasErrors(['email']);
-        $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => $this->data['name']]);                
      }
 
      public function test_contact_email_invalid_type()
      {
-        $data = [
-            'name' => 'Person Name',
-            'email' => 'person',
-            'subject' => 'This Person wants to talk to you',
-            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
-        ];
+        $this->data['email'] = 'person';
 
-        $response = $this->post(route('message.store'), $data);
-
-        $response->assertStatus(302);
+        $response = $this->submitContactMessage();
         $response->assertSessionHasErrors(['email']);
-        $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => $this->data['name']]);                
      }
 
      public function test_contact_subject_field_missing()
      {
-        $data = [
-            'name' => 'Person Name',
-            'email' => 'person',
-            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
-        ];
+        unset($this->data['subject']);
 
-        $response = $this->post(route('message.store'), $data);
-
-        $response->assertStatus(302);
+        $response = $this->submitContactMessage();
         $response->assertSessionHasErrors(['subject']);
-        $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => $this->data['name']]);                
      }
 
      public function test_contact_subject_field_too_short()
      {
-        $data = [
-            'name' => 'Person Name',
-            'email' => 'person',
-            'subject' => 'hi',
-            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
-        ];
+        $this->data['subject'] = 'hi';
 
-        $response = $this->post(route('message.store'), $data);
-
-        $response->assertStatus(302);
+        $response = $this->submitContactMessage();
         $response->assertSessionHasErrors(['subject']);
-        $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => $this->data['name']]);                
      }
 
      public function test_contact_message_field_missing()
      {
-        $data = [
-            'name' => 'Person Name',
-            'email' => 'person',
-            'subject' => 'This person wants to talk to you',
-        ];
+        unset($this->data['message']);
 
-        $response = $this->post(route('message.store'), $data);
-
-        $response->assertStatus(302);
+        $response = $this->submitContactMessage();
         $response->assertSessionHasErrors(['message']);
-        $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => $this->data['name']]);                
      }
 
      public function test_contact_message_field_too_short()
      {
-        $data = [
-            'name' => 'Person Name',
-            'email' => 'person',
-            'subject' => 'This person wants to talk to you',
-            'message' => 'hi'
-        ];
+        $this->data['message'] = 'hi';
 
-        $response = $this->post(route('message.store'), $data);
-
-        $response->assertStatus(302);
+        $response = $this->submitContactMessage();
         $response->assertSessionHasErrors(['message']);
-        $response->assertSessionMissing('success');
 
-        $this->assertDatabaseMissing('messages', ['name' => 'Person Name']);                
+        $this->assertDatabaseMissing('messages', ['name' => $this->data['name']]);                
      }
 }

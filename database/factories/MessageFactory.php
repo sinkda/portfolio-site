@@ -20,7 +20,8 @@ class MessageFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
             'subject' => $this->faker->words(rand(4,6), true),
-            'message' => $this->faker->sentences(rand(4, 6), true)
+            'message' => $this->faker->sentences(rand(4, 6), true),
+            'created_at' => $this->faker->dateTimeBetween('-1 week', now())
         ];
     }
 }

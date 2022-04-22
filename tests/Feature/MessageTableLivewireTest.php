@@ -11,9 +11,9 @@ class MessageTableLivewireTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_message_table_shows_data_no_filters()
+    public function test_message_table_shows_data_no_filters_and_sorts_correctly()
     {
-        $messages = Message::factory()->count(3)->create();
+        $messages = Message::factory()->count(3)->create()->sortByDesc('created_at');
 
         Livewire::test('message-table')
                     ->assertSet('search', '')
@@ -26,7 +26,7 @@ class MessageTableLivewireTest extends TestCase
 
     public function test_message_table_filters_data()
     {
-        $messages = Message::factory()->count(3)->create();
+        $messages = Message::factory()->count(3)->create()->sortByDesc('created_at');
 
         Livewire::test('message-table')
                 ->set('search', $messages->first()->subject)
@@ -37,7 +37,7 @@ class MessageTableLivewireTest extends TestCase
 
     public function test_message_table_filters_data_with_query_string()
     {
-        $messages = Message::factory()->count(3)->create();
+        $messages = Message::factory()->count(3)->create()->sortByDesc('created_at');
 
         Livewire::withQueryParams(['search' => $messages->first()->subject])
                 ->test('message-table')
@@ -76,7 +76,7 @@ class MessageTableLivewireTest extends TestCase
 
     public function test_message_table_paginates_correctly()
     {
-        $messages = Message::factory()->count(11)->create();
+        $messages = Message::factory()->count(11)->create()->sortByDesc('created_at');
 
         $order = [];
         for($i = 0; $i < 10; $i++)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Actions\SendContactMessageAction;
@@ -20,11 +20,14 @@ class SendContactMessageActionTest extends TestCase
            'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
 
+        $this->assertDatabaseCount('messages', 0);
+
         $contact = new SendContactMessageAction();
 
         $return = $contact->handle($data);
 
         $this->assertTrue($return);
+        $this->assertDatabaseCount('messages', 1);
     }
 
     public function test_send_contact_action_missing_data_failure()
@@ -35,10 +38,13 @@ class SendContactMessageActionTest extends TestCase
             'message' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus velit aliquam numquam inventore quam, qui possimus minus odit eveniet quas.'
         ];
  
+        $this->assertDatabaseCount('messages', 0);
+
         $contact = new SendContactMessageAction();
  
         $this->expectException(PDOException::class);
 
-        $contact->handle($data);   
+        $contact->handle($data); 
+        $this->assertDatabaseCount('messages', 0);  
     }
 }
